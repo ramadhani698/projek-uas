@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const searchTerm = searchInput.value.toLowerCase();
             const filteredSurahs = surahList.filter(
               (surah) =>
-                surah.namaLatin.toLowerCase().includes(searchTerm) ||
+                surah.nama_latin.toLowerCase().includes(searchTerm) ||
                 surah.nomor.toString().includes(searchTerm)
             );
             displaySurahs(surahContainer, filteredSurahs, searchTerm);

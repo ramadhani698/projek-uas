@@ -4,19 +4,6 @@
   --nb: #1f1e1e;
 }
 
-.container {
-  margin-top: 120px !important;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  outline: none;
-  border: none;
-  text-decoration: none;
-}
-
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -81,7 +68,6 @@ body {
 }
 
 /* Navbar search form */
-/* Navbar search form */
 .navbar .search-form {
   position: fixed; /* Ubah dari absolute ke fixed */
   top: 60px; /* Geser ke bawah agar tidak menutupi navbar */
@@ -116,7 +102,6 @@ body {
   color: var(--nb);
 }
 
-/* Adjust container margin to avoid overlap with search box */
 .container {
   margin-top: 150px !important; /* Tambahkan margin untuk memberikan ruang di bawah navbar */
 }

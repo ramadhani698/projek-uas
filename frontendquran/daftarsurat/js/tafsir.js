@@ -1,3 +1,4 @@
+// JavaScript
 const searchForm = document.querySelector(".search-form");
 const searchBox = document.querySelector("#search-box");
 
@@ -31,19 +32,22 @@ function getTafsir() {
           const namaLatin = `Surah ${nomor_surah}`;
 
           // Tampilkan nama surat
-          document.getElementById(
-            "nama-surat"
-          ).textContent = `Tafsir ${namaLatin}`;
+          document.getElementById("nama-surat").innerHTML = `
+            <h2>Tafsir ${namaLatin}</h2>
+          `;
 
           // Tampilkan isi tafsir
           let tafsirHTML = "";
           tafsirData.forEach((ayat, index) => {
             tafsirHTML += `
-              <div class="ayat">
-                <h5>Ayat ${ayat.nomor_ayat}</h5>
-                <p>${ayat.teks}</p>
+              <div class="card mb-4">
+                <div class="card-header">
+                  Ayat ${ayat.nomor_ayat}
+                </div>
+                <div class="card-body">
+                  <p class="card-text">${ayat.teks}</p>
+                </div>
               </div>
-              ${index < tafsirData.length - 1 ? "<hr>" : ""}
             `;
           });
 
