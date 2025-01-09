@@ -1,4 +1,4 @@
-// bagian search form
+// Bagian search form
 const searchForm = document.querySelector(".search-form");
 const searchBox = document.querySelector("#search-box");
 
@@ -31,53 +31,66 @@ function getURL(e) {
 const nomorsurat = getURL("nomorsurat");
 
 function getSurat() {
-  fetch(`https://equran.id/api/v2/surat/${nomorsurat}`)
-    .then((response) => response.json())
-    .then((response) => {
+  Promise.all([
+    fetch(`http://127.0.0.1:8000/api/ayat/${nomorsurat}`).then((response) =>
+      response.json()
+    ),
+    fetch("http://127.0.0.1:8000/api/suratall").then((response) =>
+      response.json()
+    ),
+  ])
+    .then(([ayatResponse, suratResponse]) => {
+      const ayatData = ayatResponse.data;
+      const suratData = suratResponse.data.find((s) => s.nomor == nomorsurat);
+
       // title surat
       const titleSurat = document.querySelector("#title-surat");
-      titleSurat.textContent = `Surat ${response.data.namaLatin}`;
+      titleSurat.textContent = `Surat ${suratData.nama_latin}`;
 
       // Judul Surat
       const judulSurat = document.querySelector(".judul-surat");
-      const suratData = response.data;
       const cardJudulSurat = `
-            <strong class="text-end mb-2">${suratData.namaLatin} - ${suratData.nama}</strong>
-            <p>Jumlah Ayat: ${suratData.jumlahAyat} (${suratData.arti})</p>
-            <button class="btn btn-primary audio-button-play">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
-              </svg>
-            </button>
-            <button class="btn btn-danger hidden-button audio-button-pause">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
-                <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/>
-              </svg>
-            </button>
-            <audio id="audio-tag" src="${suratData.audioFull["05"]}"></audio>
-            <br>
-            <button class="btn btn-primary mt-3" onclick="location.href='tafsir.html?nomorsurat=${suratData.nomor}'">
-              Lihat Tafsir
-            </button>
-            <h3><center>بِسْمِ اللَّهِ الرحمن الرَّحِيمِ</center></h3>
-          `;
+        <strong class="text-end mb-2">${suratData.nama_latin} - ${
+        suratData.nama
+      }</strong>
+        <p>Jumlah Ayat: ${suratData.jumlah_ayat} (${suratData.arti})</p>
+        <button class="btn btn-primary audio-button-play">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+          </svg>
+        </button>
+        <button class="btn btn-danger hidden-button audio-button-pause">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
+            <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/>
+          </svg>
+        </button>
+        <audio id="audio-tag" src="${
+          JSON.parse(suratData.audio_full)["05"]
+        }"></audio>
+        <br>
+        <button class="btn btn-primary mt-3" onclick="location.href='tafsir.html?nomorsurat=${
+          suratData.nomor
+        }'">
+          Lihat Tafsir
+        </button>
+        <h3><center>بِسْمِ اللَّهِ الرحمن الرَّحِيمِ</center></h3>
+      `;
 
       judulSurat.innerHTML = cardJudulSurat;
 
       // Isi Surat
-      const surat = suratData.ayat;
       let isiSurat = "";
-      surat.forEach((s) => {
+      ayatData.forEach((s) => {
         isiSurat += `
-            <div class="card mb-3">
-              <div class="card-body">
-                <p>${s.nomorAyat}</p>
-                <h3 class="text-end mb-2">${s.teksArab}</h3>
-                <p>${s.teksLatin}</p>
-                <p>${s.teksIndonesia}</p>
-              </div>
+          <div class="card mb-3">
+            <div class="card-body">
+              <p>${s.nomor_ayat}</p>
+              <h3 class="text-end mb-2">${s.teks_arab}</h3>
+              <p>${s.teks_latin}</p>
+              <p>${s.teks_indo}</p>
             </div>
-          `;
+          </div>
+        `;
       });
 
       const cardIsiSurat = document.querySelector(".card-isi-surat");
@@ -105,7 +118,7 @@ function getSurat() {
       }
     })
     .catch((error) => {
-      console.error("Error fetching surat:", error);
+      console.error("Error fetching data:", error);
     });
 }
 
@@ -122,29 +135,29 @@ if (searchAyatInput) {
 }
 
 function filterAyat(searchTerm) {
-  fetch(`https://equran.id/api/v2/surat/${nomorsurat}`)
+  fetch(`http://127.0.0.1:8000/api/ayat/${nomorsurat}`)
     .then((response) => response.json())
     .then((response) => {
-      const surat = response.data.ayat;
+      const surat = response.data;
 
       // Filter ayat berdasarkan nomor
       const filteredAyat = surat.filter((s) =>
-        s.nomorAyat.toString().includes(searchTerm)
+        s.nomor_ayat.toString().includes(searchTerm)
       );
 
       // Tampilkan ayat yang difilter
       let isiSurat = "";
       filteredAyat.forEach((s) => {
         isiSurat += `
-            <div class="card mb-3">
-              <div class="card-body">
-                <p>${s.nomorAyat}</p>
-                <h3 class="text-end mb-2">${s.teksArab}</h3>
-                <p>${s.teksLatin}</p>
-                <p>${s.teksIndonesia}</p>
-              </div>
+          <div class="card mb-3">
+            <div class="card-body">
+              <p>${s.nomor_ayat}</p>
+              <h3 class="text-end mb-2">${s.teks_arab}</h3>
+              <p>${s.teks_latin}</p>
+              <p>${s.teks_indo}</p>
             </div>
-          `;
+          </div>
+        `;
       });
 
       const cardIsiSurat = document.querySelector(".card-isi-surat");

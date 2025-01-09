@@ -19,33 +19,37 @@ document.addEventListener("click", function (e) {
 const urlParams = new URLSearchParams(window.location.search);
 const nomorSurat = urlParams.get("nomorsurat");
 
-// Ambil data tafsir dari API
+// Ambil data tafsir dari API lokal
 function getTafsir() {
-  fetch(`https://equran.id/api/v2/tafsir/${nomorSurat}`)
+  fetch(`http://127.0.0.1:8000/api/tafsir/${nomorSurat}`)
     .then((response) => response.json())
-    .then((response) => {
-      if (response && response.data) {
-        const { namaLatin, tafsir } = response.data;
+    .then((data) => {
+      if (data && data.data) {
+        const tafsirData = data.data;
+        if (tafsirData.length > 0) {
+          const { nomor_surah, teks } = tafsirData[0];
+          const namaLatin = `Surah ${nomor_surah}`;
 
-        // Tampilkan nama surat
-        document.getElementById(
-          "nama-surat"
-        ).textContent = `Tafsir Surat ${namaLatin}`;
+          // Tampilkan nama surat
+          document.getElementById(
+            "nama-surat"
+          ).textContent = `Tafsir ${namaLatin}`;
 
-        // Tampilkan isi tafsir
-        let tafsirHTML = "";
-        tafsir.forEach((ayat, index) => {
-          tafsirHTML += `
-            <div class="ayat">
-              <h5>Ayat ${ayat.ayat}</h5>
-              <p>${ayat.teks}</p>
-            </div>
-            ${index < tafsir.length - 1 ? "<hr>" : ""}
-          `;
-        });
+          // Tampilkan isi tafsir
+          let tafsirHTML = "";
+          tafsirData.forEach((ayat, index) => {
+            tafsirHTML += `
+              <div class="ayat">
+                <h5>Ayat ${ayat.nomor_ayat}</h5>
+                <p>${ayat.teks}</p>
+              </div>
+              ${index < tafsirData.length - 1 ? "<hr>" : ""}
+            `;
+          });
 
-        // Masukkan isi tafsir ke kontainer
-        document.getElementById("tafsir-content").innerHTML = tafsirHTML;
+          // Masukkan isi tafsir ke kontainer
+          document.getElementById("tafsir-content").innerHTML = tafsirHTML;
+        }
       }
     })
     .catch((error) => {

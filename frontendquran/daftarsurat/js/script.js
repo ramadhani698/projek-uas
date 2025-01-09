@@ -56,19 +56,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Tampilkan/matikan kolom pencarian
-  searchButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    searchForm.classList.toggle("active");
-    if (searchForm.classList.contains("active")) {
-      searchInput.focus();
-    }
-  });
+  if (searchButton) {
+    searchButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      searchForm.classList.toggle("active");
+      if (searchForm.classList.contains("active")) {
+        searchInput.focus();
+      }
+    });
 
-  document.addEventListener("click", (e) => {
-    if (!searchButton.contains(e.target) && !searchForm.contains(e.target)) {
-      searchForm.classList.remove("active");
-    }
-  });
+    document.addEventListener("click", (e) => {
+      if (!searchButton.contains(e.target) && !searchForm.contains(e.target)) {
+        searchForm.classList.remove("active");
+      }
+    });
+  }
 
   // Pengaturan tema
   const savedTheme = localStorage.getItem("theme");
