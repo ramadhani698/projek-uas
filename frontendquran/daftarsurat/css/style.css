@@ -1,0 +1,203 @@
+:root {
+  --primary: #87ceeb;
+  --bg: #ebae2b;
+  --nb: #1f1e1e;
+}
+
+.container {
+  margin-top: 120px !important;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-decoration: none;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 7%;
+  background-color: rgba(53, 44, 51, 0.685);
+  border-bottom: 1px solid #4d7788;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.navbar .navbar-logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  font-style: italic;
+}
+
+.navbar .navbar-logo span {
+  color: var(--primary);
+}
+
+.navbar .navbar-nav a {
+  color: #fff;
+  display: inline-block;
+  font-size: 1.3rem;
+  margin: 0 1rem;
+}
+
+.navbar .navbar-nav a:hover {
+  color: var(--primary);
+}
+
+.navbar .navbar-nav a::after {
+  content: "";
+  display: block;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.1rem solid var(--primary);
+  transform: scaleX(0);
+  transition: 0.2s linear;
+}
+
+.navbar .navbar-nav a:hover::after {
+  transform: scaleX(0.5);
+}
+
+.navbar .navbar-extra a {
+  color: #fff;
+  margin: 0 0.5rem;
+}
+
+.navbar .navbar-extra a:hover {
+  color: var(--primary);
+}
+
+/* Navbar search form */
+/* Navbar search form */
+.navbar .search-form {
+  position: fixed; /* Ubah dari absolute ke fixed */
+  top: 60px; /* Geser ke bawah agar tidak menutupi navbar */
+  right: 7%; /* Jarak dari sisi kanan */
+  background-color: #fff;
+  width: 50rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: 0.3s;
+  z-index: 10000; /* Pastikan berada di atas daftar surah */
+}
+
+.navbar .search-form.active {
+  transform: scaleY(1);
+}
+
+.navbar .search-form input {
+  height: 100%;
+  width: calc(100% - 3rem); /* Sisakan ruang untuk label */
+  font-size: 1.6rem;
+  color: var(--nb);
+  padding: 1rem;
+}
+
+.navbar .search-form label {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-right: 1rem;
+  color: var(--nb);
+}
+
+/* Adjust container margin to avoid overlap with search box */
+.container {
+  margin-top: 150px !important; /* Tambahkan margin untuk memberikan ruang di bawah navbar */
+}
+
+body,
+strong,
+h3,
+p {
+  font-family: Arial, sans-serif;
+}
+
+.navbar-nav h2 {
+  color: #fff;
+}
+
+.card-subtitle,
+.card-text {
+  font-family: "Amiri", serif; /* Font untuk teks Arab */
+}
+
+.hidden-button {
+  display: none !important;
+}
+
+.audio-button-play,
+.audio-button-pause {
+  margin: 5px;
+}
+
+.card-surat {
+  cursor: pointer;
+  transition: 0.8s;
+}
+
+/* Tema Gelap (default) */
+body.dark-mode {
+  background-color: #001f3f;
+  color: white;
+}
+
+body.dark-mode .navbar {
+  background-color: #343a40;
+}
+
+body.dark-mode .card-surat {
+  background-color: #116dc9;
+  color: #f5f0f0;
+}
+
+body.dark-mode .card-surat:hover {
+  background-color: #b1ddee;
+  color: #010101;
+}
+
+/* Tema Terang */
+body.light-mode {
+  background-color: #f5f5dc;
+  color: black;
+}
+
+body.light-mode .navbar {
+  background-color: rgba(53, 44, 51, 0.685);
+}
+
+body.light-mode .card-surat {
+  background-color: #f8f9fa;
+  color: black;
+}
+
+body.light-mode .card-surat:hover {
+  background-color: var(--primary);
+}
+
+/* jika di buka di laptop atau layar yang lebih kecil */
+@media (max-width: 768px) {
+  html {
+    font-size: 80%;
+  }
+
+  .navbar .search-form {
+    width: 90%;
+    right: 2rem;
+  }
+}
