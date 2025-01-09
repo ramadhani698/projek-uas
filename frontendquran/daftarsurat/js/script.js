@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch daftar surah dari API
   let surahList = [];
   if (surahContainer) {
-    fetch("https://equran.id/api/v2/surat")
+    fetch("http://127.0.0.1:8000/api/suratall")
       .then((response) => response.json())
       .then((data) => {
         surahList = data.data;
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="col-lg-3 col-md-4 col-sm-12">
             <div class="card mb-4 card-surat" onclick="location.href='surat.html?nomorsurat=${surah.nomor}'">
               <div class="card-body">
-                <h6 class="card-title">${surah.nomor} ${surah.namaLatin}</h6>
+                <h6 class="card-title">${surah.nomor} ${surah.nama_latin}</h6>
                 <h3 class="card-subtitle mb-2 text-muted text-end">${surah.nama}</h3>
                 <p class="card-text">${surah.arti}</p>
               </div>
