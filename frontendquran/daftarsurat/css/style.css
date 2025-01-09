@@ -4,10 +4,6 @@
   --nb: #1f1e1e;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-}
-
 /* Navbar */
 .navbar {
   display: flex;
@@ -69,9 +65,9 @@ body {
 
 /* Navbar search form */
 .navbar .search-form {
-  position: fixed; /* Ubah dari absolute ke fixed */
-  top: 60px; /* Geser ke bawah agar tidak menutupi navbar */
-  right: 7%; /* Jarak dari sisi kanan */
+  position: fixed;
+  top: 60px;
+  right: 7%;
   background-color: #fff;
   width: 50rem;
   height: 5rem;
@@ -80,7 +76,7 @@ body {
   transform: scaleY(0);
   transform-origin: top;
   transition: 0.3s;
-  z-index: 10000; /* Pastikan berada di atas daftar surah */
+  z-index: 10000;
 }
 
 .navbar .search-form.active {
@@ -89,7 +85,7 @@ body {
 
 .navbar .search-form input {
   height: 100%;
-  width: calc(100% - 3rem); /* Sisakan ruang untuk label */
+  width: calc(100% - 3rem);
   font-size: 1.6rem;
   color: var(--nb);
   padding: 1rem;
@@ -103,37 +99,49 @@ body {
 }
 
 .container {
-  margin-top: 150px !important; /* Tambahkan margin untuk memberikan ruang di bawah navbar */
+  margin-top: 150px !important;
 }
 
 body,
 strong,
 h3,
 p {
-  font-family: Arial, sans-serif;
-}
-
-.navbar-nav h2 {
-  color: #fff;
-}
-
-.card-subtitle,
-.card-text {
-  font-family: "Amiri", serif; /* Font untuk teks Arab */
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .hidden-button {
-  display: none !important;
+  display: none;
 }
 
 .audio-button-play,
 .audio-button-pause {
   margin: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.audio-button-play {
+  background: #4caf50;
+  color: white;
+}
+
+.audio-button-pause {
+  background: #e74c3c;
+  color: white;
 }
 
 .card-surat {
   cursor: pointer;
   transition: 0.8s;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-surat:hover {
+  transform: scale(1.02);
 }
 
 /* Tema Gelap (default) */
@@ -173,6 +181,41 @@ body.light-mode .card-surat {
 
 body.light-mode .card-surat:hover {
   background-color: var(--primary);
+}
+
+body {
+  transition: background-color 0.5s, color 0.5s;
+}
+
+/* Kartu Ayat */
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.ayat-meta {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.ayat-arabic {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.ayat-latin,
+.ayat-indo {
+  font-size: 1rem;
+  margin-top: 10px;
 }
 
 /* jika di buka di laptop atau layar yang lebih kecil */

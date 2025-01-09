@@ -53,25 +53,34 @@ function getSurat(nomorSurat) {
         ? JSON.parse(suratData.audio_full)["05"]
         : null;
       const cardJudulSurat = `
-        <strong class="text-end mb-2">${suratData.nama_latin} - ${
-        suratData.nama
-      }</strong>
-        <p>Jumlah Ayat: ${suratData.jumlah_ayat} (${suratData.arti})</p>
-        ${
-          audioUrl
-            ? `
-          <button class="btn btn-primary audio-button-play">Play</button>
-          <button class="btn btn-danger hidden-button audio-button-pause">Pause</button>
-          <audio id="audio-tag" src="${audioUrl}"></audio>
-        `
-            : "<p>Audio tidak tersedia</p>"
-        }
-        <br>
-        <button class="btn btn-primary mt-3" onclick="location.href='tafsir.html?nomorsurat=${
-          suratData.nomor
-        }'">Lihat Tafsir</button>
-        <h3><center>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</center></h3>
+        <div class="judul-surat-container text-center mb-4">
+          <h2 class="text mb-2">${suratData.nama_latin} (${suratData.nama})</h2>
+          <p class="text-muted">Jumlah Ayat: ${suratData.jumlah_ayat} | Arti: ${
+        suratData.arti
+      }</p>
+          <p class="text-muted">Tempat Turun: ${suratData.tempat_turun}
+          <p class="text-muted">${suratData.deskripsi}
+      }</p>
+          ${
+            audioUrl
+              ? `
+          <div class="audio-controls mt-3">
+            <button class="btn btn-primary audio-button-play">Play</button>
+            <button class="btn btn-danger hidden-button audio-button-pause">Pause</button>
+            <audio id="audio-tag" src="${audioUrl}"></audio>
+          </div>
+          `
+              : "<p class='text-warning'>Audio tidak tersedia</p>"
+          }
+          <button class="btn btn-secondary mt-3" onclick="location.href='tafsir.html?nomorsurat=${
+            suratData.nomor
+          }'">
+            Lihat Tafsir
+          </button>
+          <h1 class="mt-5"><center>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</center></h1>
+        </div>
       `;
+
       if (judulSurat) {
         judulSurat.innerHTML = cardJudulSurat;
       }
@@ -90,7 +99,7 @@ function getSurat(nomorSurat) {
               <div class="card mb-3">
                 <div class="card-body">
                   <p>Ayat ${ayat.nomor_ayat}</p>
-                  <h3 class="text-end mb-2">${ayat.teks_arab}</h3>
+                  <h1 class="text-end mb-2">${ayat.teks_arab}</h1>
                   <p>${ayat.teks_latin}</p>
                   <p>${ayat.teks_indo}</p>
                   ${
@@ -152,46 +161,6 @@ function getSurat(nomorSurat) {
                 });
               });
             }
-
-            // Panggil fungsi setelah ayat ditampilkan
-            fetch(`http://127.0.0.1:8000/api/ayat/${nomorSurat}`)
-              .then((response) => response.json())
-              .then((response) => {
-                const suratAyat = response.data;
-                let isiSurat = "";
-
-                suratAyat.forEach((ayat) => {
-                  const audioObj = ayat.audio ? JSON.parse(ayat.audio) : null;
-                  const audioAyat = audioObj ? audioObj["05"] : null;
-
-                  isiSurat += `
-                    <div class="card mb-3">
-                      <div class="card-body">
-                        <p>Ayat ${ayat.nomor_ayat}</p>
-                        <h3 class="text-end mb-2">${ayat.teks_arab}</h3>
-                        <p>${ayat.teks_latin}</p>
-                        <p>${ayat.teks_indo}</p>
-                        ${
-                          audioAyat
-                            ? `
-                        <button class="btn btn-primary audio-button-play">Play</button>
-                        <button class="btn btn-danger hidden-button audio-button-pause">Pause</button>
-                        <audio id="audio-tag" src="${audioAyat}"></audio>
-                        `
-                            : "<p>Audio tidak tersedia untuk ayat ini.</p>"
-                        }
-                      </div>
-                    </div>
-                  `;
-                });
-
-                const cardIsiSurat = document.querySelector(".card-isi-surat");
-                if (cardIsiSurat) {
-                  cardIsiSurat.innerHTML = isiSurat;
-                  addAudioEventListeners(); // Tambahkan event listener setelah elemen HTML dimuat
-                }
-              })
-              .catch((error) => console.error("Error fetching ayat:", error));
           }
         })
         .catch((error) => console.error("Error fetching ayat:", error));
@@ -238,7 +207,7 @@ function filterAyat(searchTerm) {
           <div class="card mb-3">
             <div class="card-body">
               <p>Ayat ${ayat.nomor_ayat}</p>
-              <h3 class="text-end mb-2">${ayat.teks_arab}</h3>
+              <h1 class="text-end mb-2">${ayat.teks_arab}</h1>
               <p>${ayat.teks_latin}</p>
               <p>${ayat.teks_indo}</p>
               ${
