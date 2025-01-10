@@ -67,7 +67,7 @@ function getSurat(nomorSurat) {
           <div class="audio-controls mt-3">
             <button class="btn btn-primary audio-button-play">Play</button>
             <button class="btn btn-danger hidden-button audio-button-pause">Pause</button>
-            <audio id="audio-tag" src="${audioUrl}"></audio>
+            <audio id="audio-full-tag" src="${audioUrl}"></audio>
           </div>
           `
               : "<p class='text-warning'>Audio tidak tersedia</p>"
@@ -83,6 +83,38 @@ function getSurat(nomorSurat) {
 
       if (judulSurat) {
         judulSurat.innerHTML = cardJudulSurat;
+
+        // Event listener untuk tombol Play/Pause audio full
+        const audioFull = document.querySelector("#audio-full-tag");
+        const playButtonFull = document.querySelector(".audio-button-play");
+        const pauseButtonFull = document.querySelector(".audio-button-pause");
+
+        playButtonFull.addEventListener("click", () => {
+          document.querySelectorAll("audio").forEach((audio) => {
+            audio.pause();
+            audio.parentElement
+              .querySelector(".audio-button-play")
+              .classList.remove("hidden-button");
+            audio.parentElement
+              .querySelector(".audio-button-pause")
+              .classList.add("hidden-button");
+          });
+
+          audioFull.play();
+          playButtonFull.classList.add("hidden-button");
+          pauseButtonFull.classList.remove("hidden-button");
+        });
+
+        pauseButtonFull.addEventListener("click", () => {
+          audioFull.pause();
+          playButtonFull.classList.remove("hidden-button");
+          pauseButtonFull.classList.add("hidden-button");
+        });
+
+        audioFull.addEventListener("ended", () => {
+          playButtonFull.classList.remove("hidden-button");
+          pauseButtonFull.classList.add("hidden-button");
+        });
       }
 
       fetch(`http://127.0.0.1:8000/api/ayat/${nomorSurat}`)
@@ -107,7 +139,7 @@ function getSurat(nomorSurat) {
                       ? `
                     <button class="btn btn-primary audio-button-play">Play</button>
                     <button class="btn btn-danger hidden-button audio-button-pause">Pause</button>
-                    <audio id="audio-tag" src="${audioAyat}"></audio>
+                    <audio class="audio-tag" src="${audioAyat}"></audio>
                   `
                       : "<p>Audio tidak tersedia untuk ayat ini.</p>"
                   }
@@ -122,7 +154,7 @@ function getSurat(nomorSurat) {
 
             // Tambahkan event listener untuk tombol Play/Pause dan pemutaran berurutan
             function addAudioEventListeners() {
-              const audioElements = document.querySelectorAll("audio");
+              const audioElements = document.querySelectorAll(".audio-tag");
               audioElements.forEach((audio, index) => {
                 const parentElement = audio.parentElement;
                 const playButton =
@@ -133,6 +165,18 @@ function getSurat(nomorSurat) {
 
                 // Tombol Play
                 playButton.addEventListener("click", () => {
+                  document.querySelectorAll("audio").forEach((otherAudio) => {
+                    if (otherAudio !== audio) {
+                      otherAudio.pause();
+                      otherAudio.parentElement
+                        .querySelector(".audio-button-play")
+                        .classList.remove("hidden-button");
+                      otherAudio.parentElement
+                        .querySelector(".audio-button-pause")
+                        .classList.add("hidden-button");
+                    }
+                  });
+
                   audio.play();
                   playButton.classList.add("hidden-button");
                   pauseButton.classList.remove("hidden-button");
@@ -161,6 +205,8 @@ function getSurat(nomorSurat) {
                 });
               });
             }
+
+            addAudioEventListeners();
           }
         })
         .catch((error) => console.error("Error fetching ayat:", error));
@@ -187,7 +233,7 @@ if (searchAyatInput) {
 }
 
 function filterAyat(searchTerm) {
-  fetch(`http://127.0.0.1:8000/api/ayat/${nomorsurat}`) // Gunakan API lokal
+  fetch(`http://127.0.0.1:8000/api/ayat/${nomorsurat}`)
     .then((response) => response.json())
     .then((response) => {
       const surat = response.data;
@@ -215,7 +261,7 @@ function filterAyat(searchTerm) {
                   ? `
                 <button class="btn btn-primary audio-button-play">Play</button>
                 <button class="btn btn-danger hidden-button audio-button-pause">Pause</button>
-                <audio id="audio-tag" src="${audioAyat}"></audio>
+                <audio class="audio-tag" src="${audioAyat}"></audio>
               `
                   : "<p>Audio tidak tersedia untuk ayat ini.</p>"
               }
@@ -249,6 +295,18 @@ function addAudioEventListeners() {
 
     // Tombol Play
     playButton.addEventListener("click", () => {
+      document.querySelectorAll("audio").forEach((otherAudio) => {
+        if (otherAudio !== audio) {
+          otherAudio.pause();
+          otherAudio.parentElement
+            .querySelector(".audio-button-play")
+            .classList.remove("hidden-button");
+          otherAudio.parentElement
+            .querySelector(".audio-button-pause")
+            .classList.add("hidden-button");
+        }
+      });
+
       audio.play();
       playButton.classList.add("hidden-button");
       pauseButton.classList.remove("hidden-button");
@@ -259,6 +317,20 @@ function addAudioEventListeners() {
       audio.pause();
       playButton.classList.remove("hidden-button");
       pauseButton.classList.add("hidden-button");
+    });
+
+    // Pemutaran berurutan ketika audio selesai
+    audio.addEventListener("ended", () => {
+      playButton.classList.remove("hidden-button");
+      pauseButton.classList.add("hidden-button");
+
+      // Cek apakah ada elemen audio berikutnya
+      const nextAudio = audioElements[index + 1];
+      if (nextAudio) {
+        const nextParent = nextAudio.parentElement;
+        const nextPlayButton = nextParent.querySelector(".audio-button-play");
+        nextPlayButton.click();
+      }
     });
   });
 }

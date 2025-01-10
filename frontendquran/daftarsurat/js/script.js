@@ -41,15 +41,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const surahCards = surahs
       .map(
         (surah) => `
-          <div class="col-lg-3 col-md-4 col-sm-12">
-            <div class="card mb-4 card-surat" onclick="location.href='surat.html?nomorsurat=${surah.nomor}'">
-              <div class="card-body">
-                <h6 class="card-title">${surah.nomor} ${surah.nama_latin}</h6>
-                <h3 class="card-subtitle mb-2 text-muted text-end">${surah.nama}</h3>
-                <p class="card-text">${surah.arti}</p>
-              </div>
-            </div>
-          </div>`
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card card-surat shadow-lg h-100" 
+          onclick="location.href='surat.html?nomorsurat=${surah.nomor}'" 
+          style="cursor: pointer; border-radius: 15px;">
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold">${surah.nomor}. ${surah.nama_latin}</h5>
+            <h4 class="card-subtitle mb-2 text-muted">${surah.nama}</h4>
+            <p class="card-text">${surah.arti}</p>
+          </div>
+        </div>
+      </div>`
       )
       .join("");
     container.innerHTML = surahCards;
