@@ -1,0 +1,249 @@
+:root {
+  --primary: #87ceeb;
+  --bg: #ebae2b;
+  --nb: #1f1e1e;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 7%;
+  background-color: rgba(53, 44, 51, 0.685);
+  border-bottom: 1px solid #4d7788;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.navbar .navbar-logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  font-style: italic;
+}
+
+.navbar .navbar-logo span {
+  color: var(--primary);
+}
+
+.navbar .navbar-nav a {
+  color: #fff;
+  display: inline-block;
+  font-size: 1.3rem;
+  margin: 0 1rem;
+}
+
+.navbar .navbar-nav a:hover {
+  color: var(--primary);
+}
+
+.navbar .navbar-nav a::after {
+  content: "";
+  display: block;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.1rem solid var(--primary);
+  transform: scaleX(0);
+  transition: 0.2s linear;
+}
+
+.navbar .navbar-nav a:hover::after {
+  transform: scaleX(0.5);
+}
+
+.navbar .navbar-extra a {
+  color: #fff;
+  margin: 0 0.5rem;
+}
+
+.navbar .navbar-extra a:hover {
+  color: var(--primary);
+}
+
+/* Navbar search form */
+.navbar .search-form {
+  position: fixed;
+  top: 60px;
+  right: 7%;
+  background-color: #fff;
+  width: 50rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: 0.3s;
+  z-index: 10000;
+}
+
+.navbar .search-form.active {
+  transform: scaleY(1);
+}
+
+.navbar .search-form input {
+  height: 100%;
+  width: calc(100% - 3rem);
+  font-size: 1.6rem;
+  color: var(--nb);
+  padding: 1rem;
+}
+
+.navbar .search-form label {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-right: 1rem;
+  color: var(--nb);
+}
+
+.container {
+  margin-top: 150px !important;
+}
+
+body,
+strong,
+h3,
+p {
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+/* styles.css */
+.container {
+  font-family: "Merriweather", serif;
+}
+
+h2.text-center.mb-4 {
+  text-align: center;
+  font-size: 2.6rem;
+  margin-bottom: 3rem;
+}
+
+.hidden-button {
+  display: none;
+}
+
+.audio-button-play,
+.audio-button-pause {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.audio-button-play {
+  background: #4caf50;
+  color: white;
+}
+
+.audio-button-pause {
+  background: #e74c3c;
+  color: white;
+}
+
+.card-surat {
+  cursor: pointer;
+  transition: 0.8s;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-surat:hover {
+  transform: scale(1.02);
+}
+
+/* Tema Gelap (default) */
+body.dark-mode {
+  background-color: #001f3f;
+  color: white;
+}
+
+body.dark-mode .navbar {
+  background-color: #343a40;
+}
+
+body.dark-mode .card-surat {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #116dc9;
+  color: #f5f0f0;
+}
+
+body.dark-mode .card-surat:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  background-color: #b1ddee;
+  color: #010101;
+}
+
+/* Tema Terang */
+body.light-mode {
+  background-color: #f5f5dc;
+  color: black;
+}
+
+body.light-mode .navbar {
+  background-color: rgba(53, 44, 51, 0.685);
+}
+
+body.light-mode .card-surat {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #f8f9fa;
+  color: black;
+}
+
+body.light-mode .card-surat:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary);
+}
+
+body {
+  transition: background-color 0.5s, color 0.5s;
+}
+
+/* Kartu Ayat */
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.ayat-meta {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.ayat-arabic {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.ayat-latin,
+.ayat-indo {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+/* jika di buka di laptop atau layar yang lebih kecil */
+@media (max-width: 768px) {
+  html {
+    font-size: 80%;
+  }
+
+  .navbar .search-form {
+    width: 90%;
+    right: 2rem;
+  }
+}
