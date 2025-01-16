@@ -151,8 +151,8 @@ body {
 .hero .content {
   padding: 1.4rem;
   max-width: 60rem;
-  z-index: 2; /* Pastikan konten tetap di atas latar belakang */
-  text-align: center; /* Menjaga agar teks tetap terpusat */
+  z-index: 2;
+  text-align: center;
 }
 
 .hero .content .cta {
